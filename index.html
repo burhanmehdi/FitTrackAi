@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitPath - AI Workout Generator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        /* Custom scrollbar for a sleeker look */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1f2937;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #4b5563;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #6b7280;
+        }
+
+        /* Custom radio/checkbox styles */
+        .custom-option input[type="radio"],
+        .custom-option input[type="checkbox"] {
+            display: none;
+        }
+        .custom-option label {
+            transition: all 0.2s ease-in-out;
+            cursor: pointer;
+        }
+        .custom-option input:checked + label {
+            background-color: #3b82f6;
+            color: #ffffff;
+            border-color: #3b82f6;
+            transform: scale(1.02);
+            box-shadow: 0 4px 14px 0 rgba(59, 130, 246, 0.25);
+        }
+        /* Hide number input spinners */
+        input[type='number']::-webkit-outer-spin-button,
+        input[type='number']::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input[type='number'] {
+            -moz-appearance: textfield;
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-200">
+
+    <div id="app" class="max-w-2xl mx-auto p-4 md:p-6">
+
+        <!-- Header -->
+        <header class="text-center mb-6">
+            <h1 class="text-4xl font-bold text-white">FitPath <span class="text-blue-500">AI</span></h1>
+            <p class="text-gray-400 mt-1">Your AI-powered personal trainer.</p>
+        </header>
+
+        <!-- Selection Screen -->
+        <main id="selectionScreen" class="space-y-6">
+            <!-- Step 1: Primary Goal -->
+            <section>
+                <h2 class="text-lg font-semibold mb-3 text-white"><span class="bg-blue-600 text-white rounded-full w-6 h-6 inline-flex items-center justify-center mr-2">1</span> Primary Goal</h2>
+                <div id="goal" class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                    <div class="custom-option"><input type="radio" id="goal_muscle" name="goal" value="Build Muscle" checked><label for="goal_muscle" class="block w-full text-center border-2 border-gray-700 bg-gray-800 rounded-lg p-3 font-medium">Build Muscle</label></div>
+                    <div class="custom-option"><input type="radio" id="goal_weight" name="goal" value="Lose Weight"><label for="goal_weight" class="block w-full text-center border-2 border-gray-700 bg-gray-800 rounded-lg p-3 font-medium">Lose Weight</label></div>
+                    <div class="custom-option"><input type="radio" id="goal_strength" name="goal" value="Get Stronger"><label for="goal_strength" class="block w-full text-center border-2 border-gray-700 bg-gray-800 rounded-lg p-3 font-medium">Get Stronger</label></div>
+                    <div class="custom-option"><input type="radio" id="goal_endurance" name="goal" value="Improve Endurance"><label for="goal_endurance" class="block w-full text-center border-2 border-gray-700 bg-gray-800 rounded-lg p-3 font-medium">Endurance</label></div>
+                    <div class="custom-option"><input type="radio" id="goal_flexibility" name="goal" value="Increase Flexibility"><label for="goal_flexibility" class="block w-full text-center border-2 border-gray-700 bg-gray-800 rounded-lg p-3 font-medium">Flexibility</label></div>
+                    <div class="custom-option"><input type="radio" id="goal_general" name="goal" value="General Fitness"><label for="goal_general" class="block w-full text-center border-2 border-gray-700 bg-gray-800 rounded-lg p-3 font-medium">General Fitness</label></div>
+                </div>
+            </section>
+
+            <!-- Step 2: Available Equipment -->
+            <section>
+                <h2 class="text-lg font-semibold mb-3 text-white"><span class="bg-blue-600 text-white rounded-full w-6 h-6 inline-flex items-center justify-center mr-2">2</span> Available Equipment</h2>
+                <div id="equipment" class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                    <div class="custom-option"><input type="checkbox" id="equip_gym" name="equipment" value="Full Gym"><label for="equip_gym" class="block w-full text-center border-2 border-gray-700 bg-gray-800 rounded-lg p-3 font-medium">Full Gym</label></div>
+                    <div class="custom-option"><input type="checkbox" id="equip_home" name="equipment" value="Home Gym"><label for="equip_home" class="block w-full text-center border-2 border-gray-700 bg-gray-800 rounded-lg p-3 font-medium">Home Gym</label></div>
+                    <div class="custom-option"><input type="checkbox" id="equip_dumbbells" name="equipment" value="Dumbbells"><label for="equip_dumbbells" class="block w-full text-center border-2 border-gray-700 bg-gray-800 rounded-lg p-3 font-medium">Dumbbells</label></div>
+                    <div class="custom-option"><input type="checkbox" id="equip_bands" name="equipment" value="Bands"><label for="equip_bands" class="block w-full text-center border-2 border-gray-700 bg-gray-800 rounded-lg p-3 font-medium">Bands</label></div>
+                    <div class="custom-option"><input type="checkbox" id="equip_bodyweight" name="equipment" value="Bodyweight" checked><label for="equip_bodyweight" class="block w-full text-center border-2 border-gray-700 bg-gray-800 rounded-lg p-3 font-medium">Bodyweight</label></div>
+                    <div class="custom-option"><input type="checkbox" id="equip_none" name="equipment" value="None"><label for="equip_none" class="block w-full text-center border-2 border-gray-700 bg-gray-800 rounded-lg p-3 font-medium">None</label></div>
+                </div>
+            </section>
+
+            <!-- Step 3: Target Muscle Group -->
+            <section>
+                <h2 class="text-lg font-semibold mb-3 text-white"><span class="bg-blue-600 text-white rounded-full w-6 h-6 inline-flex items-center justify-center mr-2">3</span> Target Muscle Group(s) <span class="text-gray-400 font-normal text-sm">(Optional)</span></h2>
+                <div id="muscles" class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                     <div class="custom-option"><input type="checkbox" id="muscle_full" name="muscles" value="Full Body" checked><label for="muscle_full" class="block w-full text-center border-2 border-gray-700 bg-gray-800 rounded-lg p-3 font-medium">Full Body</label></div>
+                     <div class="custom-option"><input type="checkbox" id="muscle_upper" name="muscles" value="Upper Body"><label for="muscle_upper" class="block w-full text-center border-2 border-gray-700 bg-gray-800 rounded-lg p-3 font-medium">Upper Body</label></div>
+                     <div class="custom-option"><input type="checkbox" id="muscle_lower" name="muscles" value="Lower Body"><label for="muscle_lower" class="block w-full text-center border-2 border-gray-700 bg-gray-800 rounded-lg p-3 font-medium">Lower Body</label></div>
+                     <div class="custom-option"><input type="checkbox" id="muscle_core" name="muscles" value="Core"><label for="muscle_core" class="block w-full text-center border-2 border-gray-700 bg-gray-800 rounded-lg p-3 font-medium">Core</label></div>
+                     <div class="custom-option"><input type="checkbox" id="muscle_push" name="muscles" value="Push"><label for="muscle_push" class="block w-full text-center border-2 border-gray-700 bg-gray-800 rounded-lg p-3 font-medium">Push</label></div>
+                     <div class="custom-option"><input type="checkbox" id="muscle_pull" name="muscles" value="Pull"><label for="muscle_pull" class="block w-full text-center border-2 border-gray-700 bg-gray-800 rounded-lg p-3 font-medium">Pull</label></div>
+                </div>
+            </section>
+            
+             <!-- Step 4: Workout Duration -->
+            <section>
+                <h2 class="text-lg font-semibold mb-3 text-white"><span class="bg-blue-600 text-white rounded-full w-6 h-6 inline-flex items-center justify-center mr-2">4</span> Workout Duration</h2>
+                <div id="duration" class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                    <div class="custom-option"><input type="radio" id="duration_quick" name="duration" value="15"><label for="duration_quick" class="block w-full text-center border-2 border-gray-700 bg-gray-800 rounded-lg p-3 font-medium">&lt; 15 min</label></div>
+                    <div class="custom-option"><input type="radio" id="duration_standard" name="duration" value="30" checked><label for="duration_standard" class="block w-full text-center border-2 border-gray-700 bg-gray-800 rounded-lg p-3 font-medium">15-30 min</label></div>
+                    <div class="custom-option"><input type="radio" id="duration_full" name="duration" value="60"><label for="duration_full" class="block w-full text-center border-2 border-gray-700 bg-gray-800 rounded-lg p-3 font-medium">30-60 min</label></div>
+                    <div class="custom-option"><input type="radio" id="duration_marathon" name="duration" value="61"><label for="duration_marathon" class="block w-full text-center border-2 border-gray-700 bg-gray-800 rounded-lg p-3 font-medium">60+ min</label></div>
+                </div>
+            </section>
+
+            <!-- Step 5 & 6 -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Experience Level -->
+                <section>
+                    <h2 class="text-lg font-semibold mb-3 text-white"><span class="bg-blue-600 text-white rounded-full w-6 h-6 inline-flex items-center justify-center mr-2">5</span> Experience Level</h2>
+                    <div id="experience" class="grid grid-cols-3 gap-3">
+                        <div class="custom-option"><input type="radio" id="level_beginner" name="experience" value="Beginner" checked><label for="level_beginner" class="block w-full text-center border-2 border-gray-700 bg-gray-800 rounded-lg p-3 font-medium">Beginner</label></div>
+                        <div class="custom-option"><input type="radio" id="level_intermediate" name="experience" value="Intermediate"><label for="level_intermediate" class="block w-full text-center border-2 border-gray-700 bg-gray-800 rounded-lg p-3 font-medium">Mid</label></div>
+                        <div class="custom-option"><input type="radio" id="level_advanced" name="experience" value="Advanced"><label for="level_advanced" class="block w-full text-center border-2 border-gray-700 bg-gray-800 rounded-lg p-3 font-medium">Advanced</label></div>
+                    </div>
+                </section>
+                <!-- Desired Intensity -->
+                 <section>
+                    <h2 class="text-lg font-semibold mb-3 text-white"><span class="bg-blue-600 text-white rounded-full w-6 h-6 inline-flex items-center justify-center mr-2">6</span> Mood <span class="text-gray-400 font-normal text-sm">(Optional)</span></h2>
+                    <div id="intensity" class="grid grid-cols-3 gap-3">
+                        <div class="custom-option"><input type="radio" id="intensity_light" name="intensity" value="Light"><label for="intensity_light" class="block w-full text-center border-2 border-gray-700 bg-gray-800 rounded-lg p-3 font-medium">Easy</label></div>
+                        <div class="custom-option"><input type="radio" id="intensity_moderate" name="intensity" value="Moderate" checked><label for="intensity_moderate" class="block w-full text-center border-2 border-gray-700 bg-gray-800 rounded-lg p-3 font-medium">Steady</label></div>
+                        <div class="custom-option"><input type="radio" id="intensity_high" name="intensity" value="High"><label for="intensity_high" class="block w-full text-center border-2 border-gray-700 bg-gray-800 rounded-lg p-3 font-medium">Intense</label></div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Generate Button -->
+            <div class="pt-4">
+                 <button id="generateBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-4 rounded-lg text-lg transition duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50 flex items-center justify-center">
+                    ✨ Generate My AI Workout
+                </button>
+            </div>
+        </main>
+
+        <!-- Workout Screen -->
+        <section id="workoutScreen" class="hidden fade-in">
+            <div class="flex items-center justify-between mb-4">
+                <button id="backBtn" class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300 flex items-center">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                    Back
+                </button>
+                 <button id="startBtn" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300 flex items-center">
+                    Start Workout
+                    <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                </button>
+            </div>
+            
+            <div class="bg-gray-800 p-4 rounded-lg mb-4">
+                <h2 id="workoutTitle" class="text-xl font-bold text-white">Your Workout is Ready</h2>
+                <p id="workoutSubtitle" class="text-gray-400">Here's what we've generated for you.</p>
+                 <div id="workoutTimer" class="mt-4 text-center hidden">
+                    <p class="text-lg font-semibold text-gray-300">Rest Timer</p>
+                    <p id="timerDisplay" class="text-6xl font-bold text-blue-400">00:00</p>
+                </div>
+                 <div id="aiSummary" class="bg-gray-700 p-4 rounded-lg mt-4 border-l-4 border-blue-400 hidden">
+                    <p class="text-gray-300"></p>
+                </div>
+            </div>
+
+            <div id="workoutList" class="space-y-4">
+                <!-- Exercises will be injected here -->
+            </div>
+             <div class="mt-6">
+                <button id="finisherBtn" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-4 rounded-lg text-md transition duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-purple-500 focus:ring-opacity-50 flex items-center justify-center">
+                    ✨ Suggest a Finisher
+                </button>
+            </div>
+        </section>
+        
+        <!-- Loading Spinner -->
+        <div id="loading" class="hidden fixed inset-0 bg-gray-900 bg-opacity-80 flex items-center justify-center z-50">
+            <div class="text-center">
+                <div class="w-16 h-16 border-4 border-dashed rounded-full animate-spin border-blue-500 mx-auto"></div>
+                <p id="loadingText" class="text-white text-lg mt-4">Crafting your perfect workout...</p>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // --- DOM Elements ---
+        const selectionScreen = document.getElementById('selectionScreen');
+        const workoutScreen = document.getElementById('workoutScreen');
+        const generateBtn = document.getElementById('generateBtn');
+        const backBtn = document.getElementById('backBtn');
+        const startBtn = document.getElementById('startBtn');
+        const loadingSpinner = document.getElementById('loading');
+        const loadingText = document.getElementById('loadingText');
+        const workoutList = document.getElementById('workoutList');
+        const workoutTitle = document.getElementById('workoutTitle');
+        const workoutSubtitle = document.getElementById('workoutSubtitle');
+        const workoutTimer = document.getElementById('workoutTimer');
+        const timerDisplay = document.getElementById('timerDisplay');
+        const aiSummary = document.getElementById('aiSummary');
+        const finisherBtn = document.getElementById('finisherBtn');
+        
+        let timerInterval;
+        let restTime = 60; // default rest time
+        
+        // --- Gemini API Configuration ---
+        const apiKey = ""; // This will be handled by the environment
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+
+        // --- Exercise Database ---
+        const exerciseDB = [
+            // Bodyweight
+            { name: "Push-up", primary_muscle: "Chest", equipment: ["Bodyweight"], difficulty: "Beginner", type: "Push" },
+            { name: "Squat", primary_muscle: "Quads", equipment: ["Bodyweight"], difficulty: "Beginner", type: "Legs" },
+            { name: "Jumping Jacks", primary_muscle: "Full Body", equipment: ["Bodyweight", "None"], difficulty: "Beginner", type: "Cardio" },
+            { name: "Plank", primary_muscle: "Core", equipment: ["Bodyweight", "None"], difficulty: "Beginner", type: "Core" },
+            { name: "Lunge", primary_muscle: "Quads", equipment: ["Bodyweight"], difficulty: "Beginner", type: "Legs" },
+            { name: "Burpee", primary_muscle: "Full Body", equipment: ["Bodyweight"], difficulty: "Intermediate", type: "Cardio" },
+            { name: "Pull-up", primary_muscle: "Back", equipment: ["Home Gym"], difficulty: "Intermediate", type: "Pull" },
+            { name: "High Knees", primary_muscle: "Full Body", equipment: ["Bodyweight", "None"], difficulty: "Beginner", type: "Cardio" },
+            { name: "Mountain Climbers", primary_muscle: "Core", equipment: ["Bodyweight", "None"], difficulty: "Intermediate", type: "Cardio" },
+            { name: "Glute Bridge", primary_muscle: "Glutes", equipment: ["Bodyweight"], difficulty: "Beginner", type: "Legs" },
+            { name: "Pike Push-up", primary_muscle: "Shoulders", equipment: ["Bodyweight"], difficulty: "Intermediate", type: "Push" },
+            { name: "Superman", primary_muscle: "Back", equipment: ["Bodyweight", "None"], difficulty: "Beginner", type: "Pull" },
+            { name: "Crunches", primary_muscle: "Core", equipment: ["Bodyweight", "None"], difficulty: "Beginner", type: "Core" },
+            
+            // Dumbbells
+            { name: "Dumbbell Bench Press", primary_muscle: "Chest", equipment: ["Dumbbells", "Home Gym"], difficulty: "Beginner", type: "Push" },
+            { name: "Dumbbell Fly", primary_muscle: "Chest", equipment: ["Dumbbells", "Home Gym"], difficulty: "Intermediate", type: "Push" },
+            { name: "Goblet Squat", primary_muscle: "Quads", equipment: ["Dumbbells", "Home Gym"], difficulty: "Beginner", type: "Legs" },
+            { name: "Dumbbell Row", primary_muscle: "Back", equipment: ["Dumbbells", "Home Gym"], difficulty: "Beginner", type: "Pull" },
+            { name: "Dumbbell Shoulder Press", primary_muscle: "Shoulders", equipment: ["Dumbbells", "Home Gym"], difficulty: "Beginner", type: "Push" },
+            { name: "Bicep Curl", primary_muscle: "Biceps", equipment: ["Dumbbells", "Home Gym"], difficulty: "Beginner", type: "Pull" },
+            { name: "Tricep Kickback", primary_muscle: "Triceps", equipment: ["Dumbbells", "Home Gym"], difficulty: "Beginner", type: "Push" },
+            { name: "Romanian Deadlift", primary_muscle: "Hamstrings", equipment: ["Dumbbells", "Home Gym"], difficulty: "Intermediate", type: "Legs" },
+
+            // Bands
+            { name: "Banded Pull-Apart", primary_muscle: "Shoulders", equipment: ["Bands", "Home Gym"], difficulty: "Beginner", type: "Pull" },
+            { name: "Banded Squat", primary_muscle: "Quads", equipment: ["Bands"], difficulty: "Beginner", type: "Legs" },
+            { name: "Banded Chest Press", primary_muscle: "Chest", equipment: ["Bands", "Home Gym"], difficulty: "Beginner", type: "Push" },
+            { name: "Banded Bicep Curl", primary_muscle: "Biceps", equipment: ["Bands", "Home Gym"], difficulty: "Beginner", type: "Pull" },
+            { name: "Banded Tricep Pushdown", primary_muscle: "Triceps", equipment: ["Bands", "Home Gym"], difficulty: "Beginner", type: "Push" },
+
+            // Full Gym
+            { name: "Barbell Bench Press", primary_muscle: "Chest", equipment: ["Full Gym"], difficulty: "Intermediate", type: "Push" },
+            { name: "Barbell Squat", primary_muscle: "Quads", equipment: ["Full Gym"], difficulty: "Intermediate", type: "Legs" },
+            { name: "Deadlift", primary_muscle: "Full Body", equipment: ["Full Gym"], difficulty: "Advanced", type: "Legs" },
+            { name: "Lat Pulldown", primary_muscle: "Back", equipment: ["Full Gym"], difficulty: "Beginner", type: "Pull" },
+            { name: "Leg Press", primary_muscle: "Quads", equipment: ["Full Gym"], difficulty: "Beginner", type: "Legs" },
+            { name: "Cable Crossover", primary_muscle: "Chest", equipment: ["Full Gym"], difficulty: "Intermediate", type: "Push" },
+        ];
+        
+        // --- Muscle Group Definitions ---
+        const muscleGroups = {
+            "Upper Body": ["Chest", "Back", "Shoulders", "Biceps", "Triceps"],
+            "Lower Body": ["Quads", "Glutes", "Hamstrings", "Calves"],
+            "Core": ["Core"],
+            "Push": ["Chest", "Shoulders", "Triceps"],
+            "Pull": ["Back", "Biceps"],
+            "Full Body": ["Chest", "Back", "Shoulders", "Biceps", "Triceps", "Quads", "Glutes", "Hamstrings", "Core", "Full Body"],
+        };
+        
+        let currentSelections = {};
+
+        // --- Event Listeners ---
+        generateBtn.addEventListener('click', generateWorkout);
+        backBtn.addEventListener('click', showSelectionScreen);
+        startBtn.addEventListener('click', startWorkout);
+        finisherBtn.addEventListener('click', suggestFinisher);
+        
+        // --- Gemini API Call Function ---
+        async function callGeminiAPI(prompt, isJson = true) {
+            const payload = {
+                contents: [{ parts: [{ text: prompt }] }],
+            };
+            if (isJson) {
+                payload.generationConfig = {
+                    responseMimeType: "application/json",
+                }
+            }
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                if (!response.ok) {
+                    throw new Error(`API call failed with status: ${response.status}`);
+                }
+                const result = await response.json();
+                const text = result.candidates?.[0]?.content?.parts?.[0]?.text;
+                if (!text) {
+                    throw new Error("Invalid response structure from API.");
+                }
+                return text;
+            } catch (error) {
+                console.error("Gemini API call error:", error);
+                return null;
+            }
+        }
+        
+        // --- Main Functions ---
+
+        function getUserSelections() {
+            const goal = document.querySelector('input[name="goal"]:checked').value;
+            const equipment = Array.from(document.querySelectorAll('input[name="equipment"]:checked')).map(el => el.value);
+            const muscles = Array.from(document.querySelectorAll('input[name="muscles"]:checked')).map(el => el.value);
+            const duration = parseInt(document.querySelector('input[name="duration"]:checked').value);
+            const experience = document.querySelector('input[name="experience"]:checked').value;
+            const intensity = document.querySelector('input[name="intensity"]:checked')?.value || 'Moderate';
+
+            return { goal, equipment, muscles, duration, experience, intensity };
+        }
+
+        async function generateWorkout() {
+            loadingText.textContent = "Crafting your perfect workout...";
+            loadingSpinner.classList.remove('hidden');
+            selectionScreen.classList.add('hidden');
+            aiSummary.classList.add('hidden');
+            
+            currentSelections = getUserSelections();
+            const workout = buildWorkout(currentSelections);
+            displayWorkout(workout, currentSelections, false); // Display workout first without AI content
+
+            loadingText.textContent = "Personalizing with AI...";
+
+            const exerciseNames = workout.filter(ex => !["Warm-up", "Cool-down"].includes(ex.primary_muscle)).map(ex => ex.name).join(', ');
+            const prompt = `You are FitPath AI, a motivational and expert personal trainer. A user has provided their workout preferences. Your task is to generate a creative workout title and a short, encouraging summary.
+                User Preferences:
+                - Goal: ${currentSelections.goal}
+                - Equipment: ${currentSelections.equipment.join(', ')}
+                - Target Muscles: ${currentSelections.muscles.join(', ')}
+                - Duration: ${currentSelections.duration} minutes
+                - Experience Level: ${currentSelections.experience}
+                The generated workout plan includes these exercises: ${exerciseNames}.
+                Based on all this information, provide a JSON object with two keys:
+                1. "title": A creative, catchy, and motivational title for this workout (e.g., "The 30-Minute Dumbbell Destroyer", "Full Body Bodyweight Blitz").
+                2. "summary": A 2-3 sentence motivational summary to get the user excited. Address the user directly (e.g., "Alright, let's get it! This workout is designed to...").`;
+            
+            const aiResponse = await callGeminiAPI(prompt);
+            
+            if (aiResponse) {
+                try {
+                    const parsedResponse = JSON.parse(aiResponse);
+                    workoutTitle.textContent = parsedResponse.title || workoutTitle.textContent;
+                    aiSummary.querySelector('p').textContent = parsedResponse.summary || "";
+                    aiSummary.classList.remove('hidden');
+                } catch (e) {
+                    console.error("Failed to parse AI response", e);
+                }
+            }
+            
+            loadingSpinner.classList.add('hidden');
+            workoutScreen.classList.remove('hidden');
+        }
+
+        async function suggestFinisher() {
+            loadingText.textContent = "Thinking of a challenge...";
+            loadingSpinner.classList.remove('hidden');
+            finisherBtn.disabled = true;
+            finisherBtn.classList.add('opacity-50');
+
+            const prompt = `You are FitPath AI. Suggest one single, high-intensity 'finisher' exercise to add to the end of a workout.
+                User Preferences:
+                - Goal: ${currentSelections.goal}
+                - Equipment: ${currentSelections.equipment.join(', ')}
+                - Experience Level: ${currentSelections.experience}
+                The main workout targeted these muscles: ${currentSelections.muscles.join(', ')}.
+                Provide a JSON object with two keys:
+                1. "finisher_name": The name of the finisher exercise.
+                2. "finisher_details": The recommended sets/reps or duration (e.g., 'AMRAP for 2 minutes', '3 rounds of 10 reps', '50 reps for time').`;
+            
+            const aiResponse = await callGeminiAPI(prompt);
+
+            if (aiResponse) {
+                try {
+                    const parsedResponse = JSON.parse(aiResponse);
+                    const finisher = {
+                        name: parsedResponse.finisher_name,
+                        primary_muscle: '🔥 Finisher',
+                        sets: '1',
+                        reps: parsedResponse.finisher_details
+                    };
+                    displayFinisher(finisher);
+                } catch (e) {
+                     console.error("Failed to parse finisher response", e);
+                }
+            } else {
+                 // Add a default finisher if API fails
+                 displayFinisher({ name: "Burpees", primary_muscle: '🔥 Finisher', sets: '1', reps: 'AMRAP for 60s' });
+            }
+
+            loadingSpinner.classList.add('hidden');
+            finisherBtn.remove(); // Remove button after use
+        }
+        
+        function displayFinisher(exercise) {
+            const exerciseEl = document.createElement('div');
+            exerciseEl.className = `bg-purple-800 p-4 rounded-lg shadow-md fade-in border-l-4 border-purple-400 mt-4`;
+            exerciseEl.innerHTML = `
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h3 class="text-lg font-bold text-white">${exercise.name}</h3>
+                        <p class="text-sm text-purple-300 font-semibold">${exercise.primary_muscle}</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-lg font-bold text-white">${exercise.sets} x ${exercise.reps}</p>
+                    </div>
+                </div>`;
+            workoutList.appendChild(exerciseEl);
+        }
+
+        function buildWorkout(selections) {
+            let filteredExercises = filterExercises(selections);
+            let workoutPlan = [];
+            
+            const { duration, goal, intensity } = selections;
+            
+            let numExercises;
+            if (duration <= 15) numExercises = 3;
+            else if (duration <= 30) numExercises = 5;
+            else if (duration <= 60) numExercises = 7;
+            else numExercises = 9;
+
+            workoutPlan.push({ name: "Jumping Jacks", primary_muscle: "Warm-up", sets: "1", reps: "60s" });
+            workoutPlan.push({ name: "Arm Circles", primary_muscle: "Warm-up", sets: "1", reps: "30s each way" });
+            
+            filteredExercises = shuffleArray(filteredExercises);
+            
+            for (let i = 0; i < numExercises && i < filteredExercises.length; i++) {
+                const exercise = filteredExercises[i];
+                const scheme = getSetRepScheme(goal, intensity);
+                workoutPlan.push({ ...exercise, ...scheme });
+            }
+            
+            workoutPlan.push({ name: "Quad Stretch", primary_muscle: "Cool-down", sets: "1", reps: "30s each side" });
+            workoutPlan.push({ name: "Hamstring Stretch", primary_muscle: "Cool-down", sets: "1", reps: "30s each side" });
+
+            return workoutPlan;
+        }
+
+        function filterExercises(selections) {
+            const { equipment, muscles, experience } = selections;
+            
+            let targetMuscles = [];
+            if (muscles.includes("Full Body")) {
+                targetMuscles = muscleGroups["Full Body"];
+            } else {
+                muscles.forEach(group => {
+                    targetMuscles.push(...(muscleGroups[group] || [group]));
+                });
+            }
+            const uniqueTargetMuscles = new Set(targetMuscles);
+
+            return exerciseDB.filter(ex => {
+                const hasEquipment = equipment.some(eq => ex.equipment.includes(eq));
+                const hasMuscle = uniqueTargetMuscles.has(ex.primary_muscle);
+                const hasDifficulty = experience === 'Advanced' ? true : (experience === 'Intermediate' ? ['Beginner', 'Intermediate'].includes(ex.difficulty) : ex.difficulty === 'Beginner');
+
+                return hasEquipment && hasMuscle && hasDifficulty;
+            });
+        }
+        
+        function getSetRepScheme(goal, intensity) {
+            let scheme = { sets: 3, reps: '10-12', rest: 60 };
+
+            switch (goal) {
+                case 'Build Muscle': scheme = { sets: 3, reps: '8-12', rest: 60 }; break;
+                case 'Get Stronger': scheme = { sets: 4, reps: '3-5', rest: 90 }; break;
+                case 'Lose Weight':
+                case 'Improve Endurance':
+                    scheme = { sets: 3, reps: '15-20', rest: 30 };
+                    if (intensity === 'High') {
+                        scheme = { sets: '3 Rounds', reps: '40s work / 20s rest', rest: 20 };
+                    }
+                    break;
+                case 'Increase Flexibility': scheme = { sets: 2, reps: '30-60s hold', rest: 15 }; break;
+                case 'General Fitness': default: scheme = { sets: 3, reps: '10-15', rest: 45 }; break;
+            }
+            restTime = scheme.rest;
+            return scheme;
+        }
+
+        function displayWorkout(workout, selections, useAiContent = true) {
+            workoutList.innerHTML = '';
+            
+            const { goal, equipment, duration } = selections;
+            let durationText = "";
+            if(duration <= 15) durationText = "<15 Min";
+            else if(duration <= 30) durationText = "15-30 Min";
+            else if(duration <= 60) durationText = "30-60 Min";
+            else durationText = "60+ Min";
+            
+            if (!useAiContent) {
+                workoutTitle.textContent = `${durationText} ${goal} Workout`;
+            }
+            workoutSubtitle.textContent = `Using: ${equipment.join(', ')}`;
+            
+            workout.forEach((exercise, index) => {
+                const isWarmupOrCooldown = exercise.primary_muscle === "Warm-up" || exercise.primary_muscle === "Cool-down";
+                const bgColor = isWarmupOrCooldown ? 'bg-gray-700' : 'bg-gray-800';
+
+                const exerciseEl = document.createElement('div');
+                exerciseEl.className = `${bgColor} p-4 rounded-lg shadow-md fade-in`;
+                exerciseEl.innerHTML = `
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="text-lg font-bold text-white">${exercise.name}</h3>
+                            <p class="text-sm text-blue-400 font-semibold">${exercise.primary_muscle}</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-lg font-bold text-white">${exercise.sets} x ${exercise.reps}</p>
+                            ${!isWarmupOrCooldown ? `<p class="text-sm text-gray-400">Rest: ${exercise.rest}s</p>` : ''}
+                        </div>
+                    </div>
+                    ${!isWarmupOrCooldown ? `
+                    <div class="mt-4 flex justify-end">
+                         <button data-index="${index}" class="swap-btn bg-gray-600 hover:bg-gray-500 text-white text-sm py-1 px-3 rounded-md transition">Swap</button>
+                    </div>` : ''}
+                `;
+                workoutList.appendChild(exerciseEl);
+            });
+            
+            document.querySelectorAll('.swap-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => swapExercise(e.target.dataset.index, workout, selections));
+            });
+        }
+        
+        function swapExercise(indexToSwap, currentWorkout, selections) {
+            const exerciseToSwap = currentWorkout[indexToSwap];
+            let potentialReplacements = filterExercises(selections).filter(ex => {
+                if (ex.primary_muscle !== exerciseToSwap.primary_muscle) return false;
+                return !currentWorkout.some(wEx => wEx.name === ex.name);
+            });
+            
+            if (potentialReplacements.length > 0) {
+                const newExercise = potentialReplacements[0];
+                const scheme = getSetRepScheme(selections.goal, selections.intensity);
+                currentWorkout[indexToSwap] = { ...newExercise, ...scheme };
+                displayWorkout(currentWorkout, selections); 
+            } else {
+                console.log("No suitable replacement found.");
+            }
+        }
+        
+        function showSelectionScreen() {
+            workoutScreen.classList.add('hidden');
+            selectionScreen.classList.remove('hidden');
+            stopTimer();
+            workoutTimer.classList.add('hidden');
+            startBtn.textContent = 'Start Workout';
+             startBtn.innerHTML = `
+                Start Workout
+                <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            `;
+        }
+
+        function startWorkout() {
+            workoutTimer.classList.remove('hidden');
+            startBtn.innerHTML = `
+                Next Set
+                <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path></svg>
+            `;
+            startTimer(restTime);
+        }
+
+        function startTimer(duration) {
+            stopTimer();
+            let timer = duration;
+            updateTimerDisplay(timer);
+
+            timerInterval = setInterval(() => {
+                timer--;
+                updateTimerDisplay(timer);
+                if (timer <= 0) {
+                    stopTimer();
+                }
+            }, 1000);
+        }
+
+        function stopTimer() {
+            clearInterval(timerInterval);
+        }
+
+        function updateTimerDisplay(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            timerDisplay.textContent = `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
+        }
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+    });
+    </script>
+</body>
+</html>
+
