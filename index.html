@@ -10,6 +10,10 @@
         body {
             font-family: 'Inter', sans-serif;
             -webkit-tap-highlight-color: transparent;
+            background-image: linear-gradient(rgba(17, 24, 39, 0.95), rgba(17, 24, 39, 0.95)), url('https://placehold.co/1200x800/000000/FFF?text=FitPath+BG');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
         }
         /* Custom scrollbar for a sleeker look */
         ::-webkit-scrollbar {
@@ -42,6 +46,13 @@
             transform: scale(1.02);
             box-shadow: 0 4px 14px 0 rgba(59, 130, 246, 0.25);
         }
+        .custom-option label .icon {
+            transition: transform 0.3s;
+        }
+        .custom-option input:checked + label .icon {
+            transform: scale(1.1);
+        }
+
         /* Hide number input spinners */
         input[type='number']::-webkit-outer-spin-button,
         input[type='number']::-webkit-inner-spin-button {
@@ -65,8 +76,9 @@
     <div id="app" class="max-w-2xl mx-auto p-4 md:p-6">
 
         <!-- Header -->
-        <header class="text-center mb-6">
-            <h1 class="text-4xl font-bold text-white">FitPath <span class="text-blue-500">AI</span></h1>
+        <header class="text-center mb-6 flex flex-col items-center">
+             <svg class="w-12 h-12 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+            <h1 class="text-4xl font-bold text-white mt-2">FitPath <span class="text-blue-500">AI</span></h1>
             <p class="text-gray-400 mt-1">Your AI-powered personal trainer.</p>
         </header>
 
@@ -74,46 +86,46 @@
         <main id="selectionScreen" class="space-y-6">
             <!-- Step 1: Primary Goal -->
             <section>
-                <h2 class="text-lg font-semibold mb-3 text-white"><span class="bg-blue-600 text-white rounded-full w-6 h-6 inline-flex items-center justify-center mr-2">1</span> Primary Goal</h2>
+                <h2 class="text-lg font-semibold mb-3 text-white flex items-center"><span class="bg-blue-600 text-white rounded-full w-6 h-6 inline-flex items-center justify-center mr-2">1</span> Primary Goal</h2>
                 <div id="goal" class="grid grid-cols-2 md:grid-cols-3 gap-3">
-                    <div class="custom-option"><input type="radio" id="goal_muscle" name="goal" value="Build Muscle" checked><label for="goal_muscle" class="block w-full text-center border-2 border-gray-700 bg-gray-800 rounded-lg p-3 font-medium">Build Muscle</label></div>
-                    <div class="custom-option"><input type="radio" id="goal_weight" name="goal" value="Lose Weight"><label for="goal_weight" class="block w-full text-center border-2 border-gray-700 bg-gray-800 rounded-lg p-3 font-medium">Lose Weight</label></div>
-                    <div class="custom-option"><input type="radio" id="goal_strength" name="goal" value="Get Stronger"><label for="goal_strength" class="block w-full text-center border-2 border-gray-700 bg-gray-800 rounded-lg p-3 font-medium">Get Stronger</label></div>
-                    <div class="custom-option"><input type="radio" id="goal_endurance" name="goal" value="Improve Endurance"><label for="goal_endurance" class="block w-full text-center border-2 border-gray-700 bg-gray-800 rounded-lg p-3 font-medium">Endurance</label></div>
-                    <div class="custom-option"><input type="radio" id="goal_flexibility" name="goal" value="Increase Flexibility"><label for="goal_flexibility" class="block w-full text-center border-2 border-gray-700 bg-gray-800 rounded-lg p-3 font-medium">Flexibility</label></div>
-                    <div class="custom-option"><input type="radio" id="goal_general" name="goal" value="General Fitness"><label for="goal_general" class="block w-full text-center border-2 border-gray-700 bg-gray-800 rounded-lg p-3 font-medium">General Fitness</label></div>
+                    <div class="custom-option"><input type="radio" id="goal_muscle" name="goal" value="Build Muscle" checked><label for="goal_muscle" class="flex flex-col items-center justify-center text-center border-2 border-gray-700 bg-gray-800 rounded-lg p-3 font-medium h-full"><svg class="w-8 h-8 mb-1 icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M20.57 14.86L22 13.43 20.57 12 17 15.57 8.43 7 12 3.43 10.57 2 9.14 3.43 7.71 2 5.57 4.14 4.14 2.71 2.71 4.14l1.43 1.43L2 7.71l1.43 1.43L2 10.57 3.43 12 7 8.43 15.57 17 12 20.57 13.43 22l1.43-1.43L16.29 22l2.14-2.14 1.43 1.43 1.43-1.43-1.43-1.43L22 16.29z"/></svg>Build Muscle</label></div>
+                    <div class="custom-option"><input type="radio" id="goal_weight" name="goal" value="Lose Weight"><label for="goal_weight" class="flex flex-col items-center justify-center text-center border-2 border-gray-700 bg-gray-800 rounded-lg p-3 font-medium h-full"><svg class="w-8 h-8 mb-1 icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>Lose Weight</label></div>
+                    <div class="custom-option"><input type="radio" id="goal_strength" name="goal" value="Get Stronger"><label for="goal_strength" class="flex flex-col items-center justify-center text-center border-2 border-gray-700 bg-gray-800 rounded-lg p-3 font-medium h-full"><svg class="w-8 h-8 mb-1 icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 6c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2m0 10c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>Get Stronger</label></div>
+                    <div class="custom-option"><input type="radio" id="goal_endurance" name="goal" value="Improve Endurance"><label for="goal_endurance" class="flex flex-col items-center justify-center text-center border-2 border-gray-700 bg-gray-800 rounded-lg p-3 font-medium h-full"><svg class="w-8 h-8 mb-1 icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg>Endurance</label></div>
+                    <div class="custom-option"><input type="radio" id="goal_flexibility" name="goal" value="Increase Flexibility"><label for="goal_flexibility" class="flex flex-col items-center justify-center text-center border-2 border-gray-700 bg-gray-800 rounded-lg p-3 font-medium h-full"><svg class="w-8 h-8 mb-1 icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zM9.29 16.29L12 13.59l2.71 2.7c.39.39 1.02.39 1.41 0 .39-.39.39-1.02 0-1.41L13.41 12l2.7-2.7c.39-.39.39-1.02 0-1.41-.39-.39-1.02-.39-1.41 0L12 10.59 9.29 7.88c-.39-.39-1.02-.39-1.41 0-.39.39-.39 1.02 0 1.41L10.59 12l-2.7 2.7c-.39.39-.39 1.02 0 1.41.39.39 1.03.39 1.41 0z"/></svg>Flexibility</label></div>
+                    <div class="custom-option"><input type="radio" id="goal_general" name="goal" value="General Fitness"><label for="goal_general" class="flex flex-col items-center justify-center text-center border-2 border-gray-700 bg-gray-800 rounded-lg p-3 font-medium h-full"><svg class="w-8 h-8 mb-1 icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>General Fitness</label></div>
                 </div>
             </section>
 
             <!-- Step 2: Available Equipment -->
             <section>
-                <h2 class="text-lg font-semibold mb-3 text-white"><span class="bg-blue-600 text-white rounded-full w-6 h-6 inline-flex items-center justify-center mr-2">2</span> Available Equipment</h2>
+                <h2 class="text-lg font-semibold mb-3 text-white flex items-center"><span class="bg-blue-600 text-white rounded-full w-6 h-6 inline-flex items-center justify-center mr-2">2</span> Available Equipment</h2>
                 <div id="equipment" class="grid grid-cols-2 md:grid-cols-3 gap-3">
-                    <div class="custom-option"><input type="checkbox" id="equip_gym" name="equipment" value="Full Gym"><label for="equip_gym" class="block w-full text-center border-2 border-gray-700 bg-gray-800 rounded-lg p-3 font-medium">Full Gym</label></div>
-                    <div class="custom-option"><input type="checkbox" id="equip_home" name="equipment" value="Home Gym"><label for="equip_home" class="block w-full text-center border-2 border-gray-700 bg-gray-800 rounded-lg p-3 font-medium">Home Gym</label></div>
-                    <div class="custom-option"><input type="checkbox" id="equip_dumbbells" name="equipment" value="Dumbbells"><label for="equip_dumbbells" class="block w-full text-center border-2 border-gray-700 bg-gray-800 rounded-lg p-3 font-medium">Dumbbells</label></div>
-                    <div class="custom-option"><input type="checkbox" id="equip_bands" name="equipment" value="Bands"><label for="equip_bands" class="block w-full text-center border-2 border-gray-700 bg-gray-800 rounded-lg p-3 font-medium">Bands</label></div>
-                    <div class="custom-option"><input type="checkbox" id="equip_bodyweight" name="equipment" value="Bodyweight" checked><label for="equip_bodyweight" class="block w-full text-center border-2 border-gray-700 bg-gray-800 rounded-lg p-3 font-medium">Bodyweight</label></div>
-                    <div class="custom-option"><input type="checkbox" id="equip_none" name="equipment" value="None"><label for="equip_none" class="block w-full text-center border-2 border-gray-700 bg-gray-800 rounded-lg p-3 font-medium">None</label></div>
+                    <div class="custom-option"><input type="checkbox" id="equip_gym" name="equipment" value="Full Gym"><label for="equip_gym" class="flex flex-col items-center justify-center text-center border-2 border-gray-700 bg-gray-800 rounded-lg p-3 font-medium h-full"><svg class="w-8 h-8 mb-1 icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M21 5H3c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm-2 12H5V7h14v10z"/></svg>Full Gym</label></div>
+                    <div class="custom-option"><input type="checkbox" id="equip_home" name="equipment" value="Home Gym"><label for="equip_home" class="flex flex-col items-center justify-center text-center border-2 border-gray-700 bg-gray-800 rounded-lg p-3 font-medium h-full"><svg class="w-8 h-8 mb-1 icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>Home Gym</label></div>
+                    <div class="custom-option"><input type="checkbox" id="equip_dumbbells" name="equipment" value="Dumbbells"><label for="equip_dumbbells" class="flex flex-col items-center justify-center text-center border-2 border-gray-700 bg-gray-800 rounded-lg p-3 font-medium h-full"><svg class="w-8 h-8 mb-1 icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M5 9h14v6H5z"/></svg>Dumbbells</label></div>
+                    <div class="custom-option"><input type="checkbox" id="equip_bands" name="equipment" value="Bands"><label for="equip_bands" class="flex flex-col items-center justify-center text-center border-2 border-gray-700 bg-gray-800 rounded-lg p-3 font-medium h-full"><svg class="w-8 h-8 mb-1 icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V5H6v14zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>Bands</label></div>
+                    <div class="custom-option"><input type="checkbox" id="equip_bodyweight" name="equipment" value="Bodyweight" checked><label for="equip_bodyweight" class="flex flex-col items-center justify-center text-center border-2 border-gray-700 bg-gray-800 rounded-lg p-3 font-medium h-full"><svg class="w-8 h-8 mb-1 icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>Bodyweight</label></div>
+                    <div class="custom-option"><input type="checkbox" id="equip_none" name="equipment" value="None"><label for="equip_none" class="flex flex-col items-center justify-center text-center border-2 border-gray-700 bg-gray-800 rounded-lg p-3 font-medium h-full"><svg class="w-8 h-8 mb-1 icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>None</label></div>
                 </div>
             </section>
 
             <!-- Step 3: Target Muscle Group -->
             <section>
-                <h2 class="text-lg font-semibold mb-3 text-white"><span class="bg-blue-600 text-white rounded-full w-6 h-6 inline-flex items-center justify-center mr-2">3</span> Target Muscle Group(s) <span class="text-gray-400 font-normal text-sm">(Optional)</span></h2>
+                <h2 class="text-lg font-semibold mb-3 text-white flex items-center"><span class="bg-blue-600 text-white rounded-full w-6 h-6 inline-flex items-center justify-center mr-2">3</span> Target Muscle Group(s) <span class="text-gray-400 font-normal text-sm ml-2">(Optional)</span></h2>
                 <div id="muscles" class="grid grid-cols-2 md:grid-cols-3 gap-3">
-                     <div class="custom-option"><input type="checkbox" id="muscle_full" name="muscles" value="Full Body" checked><label for="muscle_full" class="block w-full text-center border-2 border-gray-700 bg-gray-800 rounded-lg p-3 font-medium">Full Body</label></div>
-                     <div class="custom-option"><input type="checkbox" id="muscle_upper" name="muscles" value="Upper Body"><label for="muscle_upper" class="block w-full text-center border-2 border-gray-700 bg-gray-800 rounded-lg p-3 font-medium">Upper Body</label></div>
-                     <div class="custom-option"><input type="checkbox" id="muscle_lower" name="muscles" value="Lower Body"><label for="muscle_lower" class="block w-full text-center border-2 border-gray-700 bg-gray-800 rounded-lg p-3 font-medium">Lower Body</label></div>
-                     <div class="custom-option"><input type="checkbox" id="muscle_core" name="muscles" value="Core"><label for="muscle_core" class="block w-full text-center border-2 border-gray-700 bg-gray-800 rounded-lg p-3 font-medium">Core</label></div>
-                     <div class="custom-option"><input type="checkbox" id="muscle_push" name="muscles" value="Push"><label for="muscle_push" class="block w-full text-center border-2 border-gray-700 bg-gray-800 rounded-lg p-3 font-medium">Push</label></div>
-                     <div class="custom-option"><input type="checkbox" id="muscle_pull" name="muscles" value="Pull"><label for="muscle_pull" class="block w-full text-center border-2 border-gray-700 bg-gray-800 rounded-lg p-3 font-medium">Pull</label></div>
+                     <div class="custom-option"><input type="checkbox" id="muscle_full" name="muscles" value="Full Body" checked><label for="muscle_full" class="flex flex-col items-center justify-center text-center border-2 border-gray-700 bg-gray-800 rounded-lg p-3 font-medium h-full"><svg class="w-8 h-8 mb-1 icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>Full Body</label></div>
+                     <div class="custom-option"><input type="checkbox" id="muscle_upper" name="muscles" value="Upper Body"><label for="muscle_upper" class="flex flex-col items-center justify-center text-center border-2 border-gray-700 bg-gray-800 rounded-lg p-3 font-medium h-full"><svg class="w-8 h-8 mb-1 icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>Upper Body</label></div>
+                     <div class="custom-option"><input type="checkbox" id="muscle_lower" name="muscles" value="Lower Body"><label for="muscle_lower" class="flex flex-col items-center justify-center text-center border-2 border-gray-700 bg-gray-800 rounded-lg p-3 font-medium h-full"><svg class="w-8 h-8 mb-1 icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm-4-4h8v-2H8v2zm0-4h8v-2H8v2zm0-4h8V8H8v2zm0-4h8V4H8v2z"/></svg>Lower Body</label></div>
+                     <div class="custom-option"><input type="checkbox" id="muscle_core" name="muscles" value="Core"><label for="muscle_core" class="flex flex-col items-center justify-center text-center border-2 border-gray-700 bg-gray-800 rounded-lg p-3 font-medium h-full"><svg class="w-8 h-8 mb-1 icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>Core</label></div>
+                     <div class="custom-option"><input type="checkbox" id="muscle_push" name="muscles" value="Push"><label for="muscle_push" class="flex flex-col items-center justify-center text-center border-2 border-gray-700 bg-gray-800 rounded-lg p-3 font-medium h-full"><svg class="w-8 h-8 mb-1 icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l-5.5 9h11z"/></svg>Push</label></div>
+                     <div class="custom-option"><input type="checkbox" id="muscle_pull" name="muscles" value="Pull"><label for="muscle_pull" class="flex flex-col items-center justify-center text-center border-2 border-gray-700 bg-gray-800 rounded-lg p-3 font-medium h-full"><svg class="w-8 h-8 mb-1 icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 22l5.5-9h-11z"/></svg>Pull</label></div>
                 </div>
             </section>
             
              <!-- Step 4: Workout Duration -->
             <section>
-                <h2 class="text-lg font-semibold mb-3 text-white"><span class="bg-blue-600 text-white rounded-full w-6 h-6 inline-flex items-center justify-center mr-2">4</span> Workout Duration</h2>
+                <h2 class="text-lg font-semibold mb-3 text-white flex items-center"><span class="bg-blue-600 text-white rounded-full w-6 h-6 inline-flex items-center justify-center mr-2">4</span> Workout Duration</h2>
                 <div id="duration" class="grid grid-cols-2 md:grid-cols-4 gap-3">
                     <div class="custom-option"><input type="radio" id="duration_quick" name="duration" value="15"><label for="duration_quick" class="block w-full text-center border-2 border-gray-700 bg-gray-800 rounded-lg p-3 font-medium">&lt; 15 min</label></div>
                     <div class="custom-option"><input type="radio" id="duration_standard" name="duration" value="30" checked><label for="duration_standard" class="block w-full text-center border-2 border-gray-700 bg-gray-800 rounded-lg p-3 font-medium">15-30 min</label></div>
@@ -126,7 +138,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Experience Level -->
                 <section>
-                    <h2 class="text-lg font-semibold mb-3 text-white"><span class="bg-blue-600 text-white rounded-full w-6 h-6 inline-flex items-center justify-center mr-2">5</span> Experience Level</h2>
+                    <h2 class="text-lg font-semibold mb-3 text-white flex items-center"><span class="bg-blue-600 text-white rounded-full w-6 h-6 inline-flex items-center justify-center mr-2">5</span> Experience Level</h2>
                     <div id="experience" class="grid grid-cols-3 gap-3">
                         <div class="custom-option"><input type="radio" id="level_beginner" name="experience" value="Beginner" checked><label for="level_beginner" class="block w-full text-center border-2 border-gray-700 bg-gray-800 rounded-lg p-3 font-medium">Beginner</label></div>
                         <div class="custom-option"><input type="radio" id="level_intermediate" name="experience" value="Intermediate"><label for="level_intermediate" class="block w-full text-center border-2 border-gray-700 bg-gray-800 rounded-lg p-3 font-medium">Mid</label></div>
@@ -135,7 +147,7 @@
                 </section>
                 <!-- Desired Intensity -->
                  <section>
-                    <h2 class="text-lg font-semibold mb-3 text-white"><span class="bg-blue-600 text-white rounded-full w-6 h-6 inline-flex items-center justify-center mr-2">6</span> Mood <span class="text-gray-400 font-normal text-sm">(Optional)</span></h2>
+                    <h2 class="text-lg font-semibold mb-3 text-white flex items-center"><span class="bg-blue-600 text-white rounded-full w-6 h-6 inline-flex items-center justify-center mr-2">6</span> Mood <span class="text-gray-400 font-normal text-sm ml-2">(Optional)</span></h2>
                     <div id="intensity" class="grid grid-cols-3 gap-3">
                         <div class="custom-option"><input type="radio" id="intensity_light" name="intensity" value="Light"><label for="intensity_light" class="block w-full text-center border-2 border-gray-700 bg-gray-800 rounded-lg p-3 font-medium">Easy</label></div>
                         <div class="custom-option"><input type="radio" id="intensity_moderate" name="intensity" value="Moderate" checked><label for="intensity_moderate" class="block w-full text-center border-2 border-gray-700 bg-gray-800 rounded-lg p-3 font-medium">Steady</label></div>
@@ -165,14 +177,14 @@
                 </button>
             </div>
             
-            <div class="bg-gray-800 p-4 rounded-lg mb-4">
+            <div class="bg-gray-800/80 backdrop-blur-sm p-4 rounded-lg mb-4 border border-gray-700">
                 <h2 id="workoutTitle" class="text-xl font-bold text-white">Your Workout is Ready</h2>
                 <p id="workoutSubtitle" class="text-gray-400">Here's what we've generated for you.</p>
                  <div id="workoutTimer" class="mt-4 text-center hidden">
                     <p class="text-lg font-semibold text-gray-300">Rest Timer</p>
                     <p id="timerDisplay" class="text-6xl font-bold text-blue-400">00:00</p>
                 </div>
-                 <div id="aiSummary" class="bg-gray-700 p-4 rounded-lg mt-4 border-l-4 border-blue-400 hidden">
+                 <div id="aiSummary" class="bg-gray-700/50 p-4 rounded-lg mt-4 border-l-4 border-blue-400 hidden">
                     <p class="text-gray-300"></p>
                 </div>
             </div>
@@ -180,7 +192,7 @@
             <div id="workoutList" class="space-y-4">
                 <!-- Exercises will be injected here -->
             </div>
-             <div class="mt-6">
+             <div id="finisherContainer" class="mt-6">
                 <button id="finisherBtn" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-4 rounded-lg text-md transition duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-purple-500 focus:ring-opacity-50 flex items-center justify-center">
                     ✨ Suggest a Finisher
                 </button>
@@ -214,6 +226,7 @@
         const timerDisplay = document.getElementById('timerDisplay');
         const aiSummary = document.getElementById('aiSummary');
         const finisherBtn = document.getElementById('finisherBtn');
+        const finisherContainer = document.getElementById('finisherContainer');
         
         let timerInterval;
         let restTime = 60; // default rest time
@@ -221,6 +234,23 @@
         // --- Gemini API Configuration ---
         const apiKey = ""; // This will be handled by the environment
         const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+
+        // --- Icon Database ---
+        const iconMap = {
+            'Chest': '<svg class="w-8 h-8 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>',
+            'Back': '<svg class="w-8 h-8 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m12 0a2 2 0 100-4m0 4a2 2 0 110-4M6 12a2 2 0 100-4m0 4a2 2 0 110-4m12 0a2 2 0 100-4m0 4a2 2 0 110-4M6 20a2 2 0 100-4m0 4a2 2 0 110-4m12 0a2 2 0 100-4m0 4a2 2 0 110-4m-6-4a2 2 0 100-4m0 4a2 2 0 110-4m0 8a2 2 0 100-4m0 4a2 2 0 110-4"></path></svg>',
+            'Shoulders': '<svg class="w-8 h-8 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path></svg>',
+            'Biceps': '<svg class="w-8 h-8 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>',
+            'Triceps': '<svg class="w-8 h-8 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>',
+            'Quads': '<svg class="w-8 h-8 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>',
+            'Glutes': '<svg class="w-8 h-8 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>',
+            'Hamstrings': '<svg class="w-8 h-8 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>',
+            'Core': '<svg class="w-8 h-8 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16"></path></svg>',
+            'Full Body': '<svg class="w-8 h-8 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>',
+            'Warm-up': '<svg class="w-8 h-8 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>',
+            'Cool-down': '<svg class="w-8 h-8 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>',
+            '🔥 Finisher': '<svg class="w-8 h-8 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7.014A8.003 8.003 0 0122 12c0 3-1 7-7 7a6.657 6.657 0 01-2.343-.343z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 12l9 9"></path></svg>',
+        };
 
         // --- Exercise Database ---
         const exerciseDB = [
@@ -333,10 +363,12 @@
             loadingSpinner.classList.remove('hidden');
             selectionScreen.classList.add('hidden');
             aiSummary.classList.add('hidden');
-            
+            finisherContainer.innerHTML = `<button id="finisherBtn" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-4 rounded-lg text-md transition duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-purple-500 focus:ring-opacity-50 flex items-center justify-center">✨ Suggest a Finisher</button>`;
+            document.getElementById('finisherBtn').addEventListener('click', suggestFinisher);
+
             currentSelections = getUserSelections();
             const workout = buildWorkout(currentSelections);
-            displayWorkout(workout, currentSelections, false); // Display workout first without AI content
+            displayWorkout(workout, currentSelections, false);
 
             loadingText.textContent = "Personalizing with AI...";
 
@@ -371,10 +403,11 @@
         }
 
         async function suggestFinisher() {
+            const btn = document.getElementById('finisherBtn');
             loadingText.textContent = "Thinking of a challenge...";
             loadingSpinner.classList.remove('hidden');
-            finisherBtn.disabled = true;
-            finisherBtn.classList.add('opacity-50');
+            btn.disabled = true;
+            btn.classList.add('opacity-50');
 
             const prompt = `You are FitPath AI. Suggest one single, high-intensity 'finisher' exercise to add to the end of a workout.
                 User Preferences:
@@ -402,25 +435,30 @@
                      console.error("Failed to parse finisher response", e);
                 }
             } else {
-                 // Add a default finisher if API fails
                  displayFinisher({ name: "Burpees", primary_muscle: '🔥 Finisher', sets: '1', reps: 'AMRAP for 60s' });
             }
 
             loadingSpinner.classList.add('hidden');
-            finisherBtn.remove(); // Remove button after use
+            btn.remove();
         }
         
         function displayFinisher(exercise) {
             const exerciseEl = document.createElement('div');
-            exerciseEl.className = `bg-purple-800 p-4 rounded-lg shadow-md fade-in border-l-4 border-purple-400 mt-4`;
+            const icon = iconMap[exercise.primary_muscle] || iconMap['Full Body'];
+            exerciseEl.className = `bg-gray-800/80 backdrop-blur-sm p-4 rounded-lg shadow-md fade-in border border-purple-500 mt-4`;
             exerciseEl.innerHTML = `
-                <div class="flex justify-between items-start">
-                    <div>
-                        <h3 class="text-lg font-bold text-white">${exercise.name}</h3>
-                        <p class="text-sm text-purple-300 font-semibold">${exercise.primary_muscle}</p>
-                    </div>
-                    <div class="text-right">
-                        <p class="text-lg font-bold text-white">${exercise.sets} x ${exercise.reps}</p>
+                <div class="flex items-center">
+                     ${icon.replace('w-8 h-8 text-blue-400', 'w-8 h-8 text-purple-400')}
+                    <div class="ml-4 flex-1">
+                         <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="text-lg font-bold text-white">${exercise.name}</h3>
+                                <p class="text-sm text-purple-400 font-semibold">${exercise.primary_muscle}</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-lg font-bold text-white">${exercise.sets} x ${exercise.reps}</p>
+                            </div>
+                        </div>
                     </div>
                 </div>`;
             workoutList.appendChild(exerciseEl);
@@ -514,25 +552,32 @@
             
             workout.forEach((exercise, index) => {
                 const isWarmupOrCooldown = exercise.primary_muscle === "Warm-up" || exercise.primary_muscle === "Cool-down";
-                const bgColor = isWarmupOrCooldown ? 'bg-gray-700' : 'bg-gray-800';
+                const bgColor = 'bg-gray-800/80 backdrop-blur-sm';
+                const icon = iconMap[exercise.primary_muscle] || iconMap['Full Body'];
+                const textColor = exercise.primary_muscle === 'Warm-up' ? 'text-yellow-400' : (exercise.primary_muscle === 'Cool-down' ? 'text-green-400' : 'text-blue-400');
 
                 const exerciseEl = document.createElement('div');
-                exerciseEl.className = `${bgColor} p-4 rounded-lg shadow-md fade-in`;
+                exerciseEl.className = `${bgColor} p-4 rounded-lg shadow-md fade-in border border-gray-700`;
                 exerciseEl.innerHTML = `
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <h3 class="text-lg font-bold text-white">${exercise.name}</h3>
-                            <p class="text-sm text-blue-400 font-semibold">${exercise.primary_muscle}</p>
-                        </div>
-                        <div class="text-right">
-                            <p class="text-lg font-bold text-white">${exercise.sets} x ${exercise.reps}</p>
-                            ${!isWarmupOrCooldown ? `<p class="text-sm text-gray-400">Rest: ${exercise.rest}s</p>` : ''}
+                    <div class="flex items-center">
+                        ${icon}
+                        <div class="ml-4 flex-1">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h3 class="text-lg font-bold text-white">${exercise.name}</h3>
+                                    <p class="text-sm ${textColor} font-semibold">${exercise.primary_muscle}</p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-lg font-bold text-white">${exercise.sets} x ${exercise.reps}</p>
+                                    ${!isWarmupOrCooldown ? `<p class="text-sm text-gray-400">Rest: ${exercise.rest}s</p>` : ''}
+                                </div>
+                            </div>
+                             ${!isWarmupOrCooldown ? `
+                            <div class="mt-2 flex justify-end">
+                                 <button data-index="${index}" class="swap-btn bg-gray-600 hover:bg-gray-500 text-white text-xs py-1 px-2 rounded-md transition">Swap</button>
+                            </div>` : ''}
                         </div>
                     </div>
-                    ${!isWarmupOrCooldown ? `
-                    <div class="mt-4 flex justify-end">
-                         <button data-index="${index}" class="swap-btn bg-gray-600 hover:bg-gray-500 text-white text-sm py-1 px-3 rounded-md transition">Swap</button>
-                    </div>` : ''}
                 `;
                 workoutList.appendChild(exerciseEl);
             });
